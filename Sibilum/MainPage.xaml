@@ -12,75 +12,150 @@
             HorizontalOptions="FillAndExpand" 
             VerticalOptions="FillAndExpand">
 
-            <!-- Arriba a la izquierda -->
-            <shapes:Ellipse x:Name="Bubble1" WidthRequest="60" HeightRequest="60"
-                  Fill="{StaticResource PrimaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.2,0.2,60,60"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+            <!-- 🎨 Burbujas estilo imagen sketch (PNG) -->
+            <Image x:Name="Bubble1"
+                   Source="sketch_bubble.png"
+                   Opacity="0"
+                   WidthRequest="60" HeightRequest="60"
+                   AbsoluteLayout.LayoutBounds="0.2,0.2,60,60"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Arriba a la derecha -->
+            <Image x:Name="Bubble10"
+                   Source="sketch_bubble_purple.png"
+                   Opacity="0"
+                   WidthRequest="45" HeightRequest="45"
+                   AbsoluteLayout.LayoutBounds="0.75,0.75,45,45"
+                   AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+            <!-- 🎈 Burbujas normales rellenas -->
             <shapes:Ellipse x:Name="Bubble2" WidthRequest="40" HeightRequest="40"
-                  Fill="{StaticResource SecondaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.8,0.15,40,40"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.8,0.15,40,40"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Centro izquierda -->
             <shapes:Ellipse x:Name="Bubble3" WidthRequest="30" HeightRequest="30"
-                  Fill="{StaticResource PrimaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.1,0.5,30,30"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.1,0.5,30,30"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Centro derecha -->
             <shapes:Ellipse x:Name="Bubble4" WidthRequest="45" HeightRequest="45"
-                  Fill="{StaticResource SecondaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.9,0.55,45,45"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.9,0.55,45,45"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Abajo izquierda -->
             <shapes:Ellipse x:Name="Bubble5" WidthRequest="25" HeightRequest="25"
-                  Fill="{StaticResource PrimaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.3,0.85,25,25"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.3,0.85,25,25"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Abajo derecha -->
             <shapes:Ellipse x:Name="Bubble6" WidthRequest="50" HeightRequest="50"
-                  Fill="{StaticResource SecondaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.7,0.88,50,50"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
-            <!-- Burbuja extra superior centro -->
+                            Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.7,0.88,50,50"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
+
             <shapes:Ellipse x:Name="Bubble7" WidthRequest="35" HeightRequest="35"
-                  Fill="{StaticResource PrimaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.5,0.1,35,35"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.5,0.1,35,35"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Burbuja extra centro exacto -->
             <shapes:Ellipse x:Name="Bubble8" WidthRequest="20" HeightRequest="20"
-                  Fill="{StaticResource SecondaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.5,0.5,20,20"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.5,0.5,20,20"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
-            <!-- Burbuja extra parte baja centro -->
             <shapes:Ellipse x:Name="Bubble9" WidthRequest="55" HeightRequest="55"
-                  Fill="{StaticResource PrimaryBrush}" Opacity="0"
-                  AbsoluteLayout.LayoutBounds="0.5,0.9,55,55"
-                  AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.5,0.9,55,55"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+            <!-- ✏️ Burbujas estilo stroke tipo sketch -->
+            <shapes:Ellipse x:Name="Bubble11" WidthRequest="50" HeightRequest="50"
+                            Stroke="{StaticResource PrimaryBrush}"
+                            StrokeThickness="1.5"
+                            StrokeDashArray="2,1.5"
+                            Fill="Transparent" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.25,0.3,50,50"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+            <shapes:Ellipse x:Name="Bubble12" WidthRequest="35" HeightRequest="35"
+                            Stroke="{StaticResource SecondaryBrush}"
+                            StrokeThickness="1.2"
+                            StrokeDashArray="1,1.5"
+                            Fill="Transparent" Opacity="0"
+                            AbsoluteLayout.LayoutBounds="0.6,0.25,35,35"
+                            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
         </AbsoluteLayout>
 
         <!-- Contenido principal -->
         <VerticalStackLayout Padding="30" Spacing="20"
-							 HorizontalOptions="Center"
-							 VerticalOptions="Center">
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center">
             <Label x:Name="TitleLabel"
-	           Text="Sibilum"
-	           FontSize="48"
-	           Style="{StaticResource TitleLabel}" />
+                   Text="Sibilum"
+                   FontSize="48"
+                   Style="{StaticResource TitleLabel}" />
 
             <Label x:Name="SubtitleLabel"
-	           Text="Una app hecha de susurros."
-	           FontSize="22"
-	           Style="{StaticResource BodyLabel}" />
+                   Text="Una app hecha de susurros."
+                   FontSize="22"
+                   Style="{StaticResource BodyLabel}" />
+        </VerticalStackLayout>
 
+        <!-- Detecta el toque inicial del usuario -->
+        <ContentView x:Name="TouchOverlay"
+                     BackgroundColor="Transparent"
+                     IsVisible="True">
+            <ContentView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnScreenTapped" />
+            </ContentView.GestureRecognizers>
+        </ContentView>
+
+        <!-- Transición a negro -->
+        <BoxView x:Name="BlackOverlay"
+                 BackgroundColor="Black"
+                 Opacity="0"
+                 IsVisible="False" />
+
+        <!-- Layout para la pregunta y nombre -->
+        <VerticalStackLayout x:Name="IntroPromptLayout"
+                             Opacity="0"
+                             IsVisible="False"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="25">
+
+            <Label x:Name="MysteryLabel"
+                   Text="Un susurro te espera..."
+                   FontSize="24"
+                   TextColor="White"
+                   Opacity="0"
+                   HorizontalOptions="Center" />
+
+            <Label x:Name="QuestionLabel"
+                   Text="¿Quién eres?"
+                   FontSize="28"
+                   TextColor="White"
+                   Opacity="0"
+                   HorizontalOptions="Center" />
+
+            <Entry x:Name="NameEntry"
+                   Placeholder="Escribe tu nombre..."
+                   TextColor="White"
+                   PlaceholderColor="Gray"
+                   BackgroundColor="#333333"
+                   WidthRequest="250"
+                   Opacity="0"
+                   HorizontalOptions="Center" />
+
+            <ImageButton x:Name="ContinueButton"
+                         Source="sketch_bubble_purple.png"
+                         WidthRequest="60"
+                         HeightRequest="60"
+                         BackgroundColor="Transparent"
+                         Opacity="0"
+                         Clicked="OnContinueClicked"
+                         HorizontalOptions="Center" />
         </VerticalStackLayout>
 
     </Grid>
