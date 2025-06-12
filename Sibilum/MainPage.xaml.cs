@@ -138,16 +138,22 @@ namespace Sibilum
                     await Task.Delay(2000);
                     _ = Task.Run(async () =>
                     {
-                        await Task.Delay(10000); // 10 segundos después del primer cambio de título
+                        await Task.Delay(10000); // Espera 10 segundos
 
                         await MainThread.InvokeOnMainThreadAsync(async () =>
                         {
-                            await SubtitleLabel.FadeTo(0, 1000);
+                            await SubtitleLabel.FadeTo(0, 500);
                             SubtitleLabel.Text = "Presiona para continuar...";
-                            await SubtitleLabel.FadeTo(1, 1200);
+                            await SubtitleLabel.FadeTo(1, 800);
+
+                            // Animación de parpadeo continua
+                            while (true)
+                            {
+                                await SubtitleLabel.FadeTo(0.2, 1000, Easing.SinInOut);
+                                await SubtitleLabel.FadeTo(1, 1000, Easing.SinInOut);
+                            }
                         });
                     });
-
                 }
 
                 i++;

@@ -11,15 +11,15 @@ public partial class IntroPage : ContentPage
 
     private async void StartIntroSequence()
     {
-        await Task.Delay(1200); // Pausa inicial
+        await Task.Delay(2500); // Pausa inicial prolongada
 
-        await ShowTextGradually(MessageLabel, "Un susurro te espera...", 100);
+        await ShowScrambledText(MessageLabel, "Un susurro te espera...", 100, 8);
         await Task.Delay(1800);
 
         await MessageLabel.FadeTo(0, 800, Easing.CubicOut);
         await Task.Delay(800);
 
-        await ShowTextGradually(QuestionLabel, "¿Quién eres?", 100);
+        await ShowScrambledText(QuestionLabel, "¿Quién eres?", 120, 6);
         await Task.Delay(1800);
 
         await NameEntry.FadeTo(1, 1200, Easing.CubicIn);
@@ -28,12 +28,37 @@ public partial class IntroPage : ContentPage
         await ContinueButtonContainer.FadeTo(1, 1200, Easing.CubicInOut);
     }
 
-    private async Task ShowTextGradually(Label label, string text, int delayPerChar)
+    private async Task ShowScrambledText(Label label, string finalText, int delayPerChar = 70, int mutationRounds = 6)
     {
+        string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{};:'\",.<>?";
+
         label.Text = "";
         label.Opacity = 1;
 
-        foreach (char c in text)
+        Random rnd = new();
+
+        for (int round = 0; round < mutationRounds; round++)
+        {
+            string display = "";
+            for (int i = 0; i < finalText.Length; i++)
+            {
+                if (rnd.NextDouble() < (double)(mutationRounds - round) / mutationRounds)
+                {
+                    display += chars[rnd.Next(chars.Length)];
+                }
+                else
+                {
+                    display += finalText[i];
+                }
+            }
+
+            label.Text = display;
+            await Task.Delay(delayPerChar * 2);
+        }
+
+        // Finalmente escribe el texto correcto lentamente
+        label.Text = "";
+        foreach (char c in finalText)
         {
             label.Text += c;
             await Task.Delay(delayPerChar);
