@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sibilum.IntroPage"
+             BackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid x:Name="RootGrid" IgnoreSafeArea="True">
+        <VerticalStackLayout x:Name="IntroLayout"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             Spacing="25"
+                             Padding="30">
+
+            <Label x:Name="MessageLabel"
+                   Text=""
+                   TextColor="White"
+                   FontSize="22"
+                   Opacity="0"
+                   HorizontalTextAlignment="Center" />
+
+            <Label x:Name="QuestionLabel"
+                   Text=""
+                   TextColor="White"
+                   FontSize="26"
+                   Opacity="0"
+                   HorizontalTextAlignment="Center" />
+
+            <Entry x:Name="NameEntry"
+                   Placeholder="Escribe tu nombre..."
+                   TextColor="White"
+                   PlaceholderColor="Gray"
+                   BackgroundColor="#333333"
+                   WidthRequest="250"
+                   Opacity="0"
+                   HorizontalOptions="Center" />
+
+            <Grid x:Name="ContinueButtonContainer"
+                  WidthRequest="70"
+                  HeightRequest="70"
+                  Opacity="0">
+
+                <Image Source="sketch_bubble_purple.png"
+                       Aspect="AspectFit" />
+
+                <Label Text="Continuar"
+                       TextColor="White"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold" />
+
+                <ImageButton BackgroundColor="Transparent"
+                             Clicked="OnContinueClicked" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

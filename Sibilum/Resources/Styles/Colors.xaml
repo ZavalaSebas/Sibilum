@@ -10,6 +10,9 @@
     <Color x:Key="Detail">#A6E3A1</Color>
     <Color x:Key="TextLight">#A6ADC8</Color>
     <Color x:Key="Error">#F38BA8</Color>
+    <Color x:Key="PrimaryText">#fbd0ff</Color>
+    <!-- o el color principal que estés usando -->
+
 
     <!-- SolidColorBrushes -->
     <SolidColorBrush x:Key="BackgroundDarkBrush" Color="{StaticResource BackgroundDark}" />

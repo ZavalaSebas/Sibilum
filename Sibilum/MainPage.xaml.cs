@@ -4,25 +4,29 @@ namespace Sibilum
 {
     public partial class MainPage : ContentPage
     {
-        private IAudioPlayer _player;
+        private IAudioPlayer _bgPlayer;
+        private IAudioPlayer _tapSoundPlayer;
+        private bool _firstTitleDone = false;
+        private bool userHasTapped = false;
+        private bool hintShown = false;
+
 
         public MainPage()
         {
             InitializeComponent();
-            PlayBackgroundMusic(); // Agregar la música apenas inicie
+            PlayBackgroundMusic();
+            InitializeTitleText("Sibilum");
             AnimateIntro();
         }
 
         private async void PlayBackgroundMusic()
         {
             var audioService = AudioManager.Current;
-            var audioFile = await FileSystem.OpenAppPackageFileAsync("strangeAmbientLoop.mp3");
-
-            _player = audioService.CreatePlayer(audioFile);
-            _player.Loop = true; // Para que se repita infinitamente
-            _player.Volume = 0.4; // Volumen suave
-
-            _player.Play();
+            var file = await FileSystem.OpenAppPackageFileAsync("strangeAmbientLoop.mp3");
+            _bgPlayer = audioService.CreatePlayer(file);
+            _bgPlayer.Loop = true;
+            _bgPlayer.Volume = 0.4;
+            _bgPlayer.Play();
         }
 
         private async void AnimateIntro()
@@ -32,7 +36,7 @@ namespace Sibilum
             TitleLabel.Scale = 0.8;
             SubtitleLabel.Scale = 0.8;
 
-            await Task.Delay(1000); // Delay inicial
+            await Task.Delay(1000);
             await Task.WhenAll(
                 TitleLabel.FadeTo(1, 1800, Easing.CubicIn),
                 TitleLabel.ScaleTo(1, 1800, Easing.CubicOut)
@@ -46,19 +50,15 @@ namespace Sibilum
             );
 
             StartBubbleAnimations();
+            _ = StartTitleVariationsAnimated();
         }
 
         private void StartBubbleAnimations()
         {
-            // 🎨 Imágenes sketch
             StartBubbleCycle(Bubble1, 8500);
             StartBubbleCycle(Bubble10, 9500);
-
-            // ✏️ Sketch tipo stroke
             StartBubbleCycle(Bubble11, 9200);
             StartBubbleCycle(Bubble12, 8800);
-
-            // 🎈 Normales
             StartBubbleCycle(Bubble2, 10000);
             StartBubbleCycle(Bubble3, 7500);
             StartBubbleCycle(Bubble4, 9000);
@@ -68,6 +68,7 @@ namespace Sibilum
             StartBubbleCycle(Bubble8, 7000);
             StartBubbleCycle(Bubble9, 8800);
         }
+
         private async void StartBubbleCycle(View bubble, int duration)
         {
             Random rnd = new();
@@ -78,10 +79,9 @@ namespace Sibilum
                 bool doPulse = rnd.Next(0, 4) == 0;
 
                 double originalScale = bubble.Scale;
-                double targetScale = rnd.NextDouble() * 0.8 + 0.6; // Escala entre 0.6 y 1.4
+                double targetScale = rnd.NextDouble() * 0.8 + 0.6;
                 double rotation = rnd.Next(0, 2) == 1 ? 180 : -180;
 
-                // Fade in y scale aleatorio
                 await Task.WhenAll(
                     bubble.FadeTo(0.25, 1000, Easing.SinInOut),
                     bubble.ScaleTo(targetScale, (uint)(duration * 0.6), Easing.SinInOut)
@@ -101,10 +101,8 @@ namespace Sibilum
                     await bubble.ScaleTo(targetScale, 400, Easing.SpringIn);
                 }
 
-                // Fade out antes de reset
                 await bubble.FadeTo(0, 1000, Easing.SinInOut);
 
-                // Reset propiedades
                 bubble.Scale = originalScale;
                 bubble.TranslationY = 0;
                 bubble.Rotation = 0;
@@ -112,46 +110,111 @@ namespace Sibilum
                 await Task.Delay(rnd.Next(2500, 4500));
             }
         }
+
+        private async Task StartTitleVariationsAnimated()
+        {
+            await Task.Delay(5000); // ⏳ Espera inicial antes de empezar a escribir
+
+            string[] variantes =
+            {
+                "Sibilum", "sibilum", "𝓢𝓲𝓫𝓲𝓵𝓾𝓶", "Ｓｉｂｉｌｕｍ", "s!bilum", "S🜁bilum", "siB!LUM", "Śïbįlūm"
+            };
+
+            int i = 0;
+            Random rnd = new();
+
+            while (true)
+            {
+                string next = variantes[i % variantes.Length];
+                bool isFirst = i == 0;
+                bool randomized = isFirst || rnd.NextDouble() > 0.75; // Más lento por defecto
+                int delay = randomized ? 260 : 180;
+
+                await AnimateTitleLetterByLetter(next, randomized, delay);
+
+                if (!_firstTitleDone)
+                {
+                    _firstTitleDone = true;
+                    await Task.Delay(2000);
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(10000); // 10 segundos después del primer cambio de título
+
+                        await MainThread.InvokeOnMainThreadAsync(async () =>
+                        {
+                            await SubtitleLabel.FadeTo(0, 1000);
+                            SubtitleLabel.Text = "Presiona para continuar...";
+                            await SubtitleLabel.FadeTo(1, 1200);
+                        });
+                    });
+
+                }
+
+                i++;
+                await Task.Delay(4500);
+            }
+        }
+
+        private async Task AnimateTitleLetterByLetter(string newText, bool randomized, int delayPerChar)
+        {
+            TitleLabel.FormattedText = new FormattedString();
+            var random = new Random();
+
+            foreach (char c in newText)
+            {
+                var span = new Span
+                {
+                    Text = c.ToString(),
+                    FontSize = randomized ? random.Next(42, 57) : 48,
+                    FontAttributes = randomized && random.Next(0, 2) == 1 ? FontAttributes.Bold : FontAttributes.None,
+                    TextColor = randomized ?
+                        (random.Next(0, 2) == 0 ? Color.FromArgb("#fbd0ff") : Color.FromArgb("#dab3f7"))
+                        : (Color)Application.Current.Resources["PrimaryText"]
+                };
+
+                TitleLabel.FormattedText.Spans.Add(span);
+                await Task.Delay(delayPerChar);
+            }
+        }
+
+        private void InitializeTitleText(string text)
+        {
+            TitleFormatted.Spans.Clear();
+
+            foreach (char c in text)
+            {
+                var span = new Span
+                {
+                    Text = c.ToString(),
+                    FontSize = 48,
+                    TextColor = (Color)Application.Current.Resources["PrimaryText"]
+                };
+
+                TitleFormatted.Spans.Add(span);
+            }
+        }
+
         private async void OnScreenTapped(object sender, EventArgs e)
         {
+            if (!_firstTitleDone) return; // ⛔ Bloquea el tap hasta que se haya escrito el primer título
+
             TouchOverlay.IsVisible = false;
+            await PlayTapSound();
 
             BlackOverlay.IsVisible = true;
             await BlackOverlay.FadeTo(1, 1600, Easing.CubicInOut);
 
-            await Task.Delay(1200);
-            IntroPromptLayout.IsVisible = true;
-
-            await MysteryLabel.FadeTo(1, 1600, Easing.CubicInOut);
-            await Task.Delay(1600);
-
-            await QuestionLabel.FadeTo(1, 1400, Easing.CubicOut);
-            await Task.Delay(1000);
-
-            await NameEntry.FadeTo(1, 1000, Easing.CubicIn);
             await Task.Delay(1500);
-
-            await ContinueButton.FadeTo(1, 1000, Easing.SinInOut);
+            await Shell.Current.GoToAsync("///IntroPage");
         }
 
-        private async void OnContinueClicked(object sender, EventArgs e)
+        private async Task PlayTapSound()
         {
-            string nombre = NameEntry.Text?.Trim();
-
-            if (!string.IsNullOrEmpty(nombre))
-            {
-                Preferences.Set("nombre_usuario", nombre); // Se guarda de forma persistente
-                await DisplayAlert("Nombre guardado", $"Hola, {nombre}", "Continuar");
-
-                // Aquí puedes hacer la transición a la siguiente página o escena
-            }
-            else
-            {
-                await DisplayAlert("Ups", "Por favor, escribe tu nombre antes de continuar.", "Ok");
-            }
+            var audioService = AudioManager.Current;
+            var tapFile = await FileSystem.OpenAppPackageFileAsync("ThisActionWillHaveConsequences.mp3");
+            _tapSoundPlayer = audioService.CreatePlayer(tapFile);
+            _tapSoundPlayer.Volume = 0.7;
+            _tapSoundPlayer.Play();
         }
-
-
     }
-
 }

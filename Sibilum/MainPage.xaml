@@ -5,12 +5,11 @@
              x:Class="Sibilum.MainPage"
              BackgroundColor="{StaticResource BackgroundDark}">
 
-    <Grid>
+    <Grid IgnoreSafeArea="True">
 
         <!-- Fondo con burbujas animadas -->
-        <AbsoluteLayout 
-            HorizontalOptions="FillAndExpand" 
-            VerticalOptions="FillAndExpand">
+        <AbsoluteLayout HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
 
             <!-- 🎨 Burbujas estilo imagen sketch (PNG) -->
             <Image x:Name="Bubble1"
@@ -84,7 +83,6 @@
                             Fill="Transparent" Opacity="0"
                             AbsoluteLayout.LayoutBounds="0.6,0.25,35,35"
                             AbsoluteLayout.LayoutFlags="PositionProportional" />
-
         </AbsoluteLayout>
 
         <!-- Contenido principal -->
@@ -92,9 +90,14 @@
                              HorizontalOptions="Center"
                              VerticalOptions="Center">
             <Label x:Name="TitleLabel"
-                   Text="Sibilum"
-                   FontSize="48"
-                   Style="{StaticResource TitleLabel}" />
+       FontSize="48"
+       HorizontalOptions="Center"
+       TextColor="{StaticResource PrimaryText}">
+                <!-- Aquí agregamos el color -->
+                <Label.FormattedText>
+                    <FormattedString x:Name="TitleFormatted" />
+                </Label.FormattedText>
+            </Label>
 
             <Label x:Name="SubtitleLabel"
                    Text="Una app hecha de susurros."
@@ -116,47 +119,6 @@
                  BackgroundColor="Black"
                  Opacity="0"
                  IsVisible="False" />
-
-        <!-- Layout para la pregunta y nombre -->
-        <VerticalStackLayout x:Name="IntroPromptLayout"
-                             Opacity="0"
-                             IsVisible="False"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Spacing="25">
-
-            <Label x:Name="MysteryLabel"
-                   Text="Un susurro te espera..."
-                   FontSize="24"
-                   TextColor="White"
-                   Opacity="0"
-                   HorizontalOptions="Center" />
-
-            <Label x:Name="QuestionLabel"
-                   Text="¿Quién eres?"
-                   FontSize="28"
-                   TextColor="White"
-                   Opacity="0"
-                   HorizontalOptions="Center" />
-
-            <Entry x:Name="NameEntry"
-                   Placeholder="Escribe tu nombre..."
-                   TextColor="White"
-                   PlaceholderColor="Gray"
-                   BackgroundColor="#333333"
-                   WidthRequest="250"
-                   Opacity="0"
-                   HorizontalOptions="Center" />
-
-            <ImageButton x:Name="ContinueButton"
-                         Source="sketch_bubble_purple.png"
-                         WidthRequest="60"
-                         HeightRequest="60"
-                         BackgroundColor="Transparent"
-                         Opacity="0"
-                         Clicked="OnContinueClicked"
-                         HorizontalOptions="Center" />
-        </VerticalStackLayout>
 
     </Grid>
 </ContentPage>
