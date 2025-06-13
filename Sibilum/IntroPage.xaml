@@ -2,58 +2,75 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Sibilum.IntroPage"
-             BackgroundColor="Black"
-             NavigationPage.HasNavigationBar="False">
+             BackgroundColor="Black">
 
-    <Grid x:Name="RootGrid" IgnoreSafeArea="True">
-        <VerticalStackLayout x:Name="IntroLayout"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Center"
-                             Spacing="25"
-                             Padding="30">
+    <AbsoluteLayout x:Name="BubbleLayout" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+        <StackLayout Padding="30" Spacing="20"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Center"
+                     AbsoluteLayout.LayoutFlags="All"
+                     AbsoluteLayout.LayoutBounds="0.5, 0.5, 1, 1">
 
             <Label x:Name="MessageLabel"
                    Text=""
+                   FontSize="24"
                    TextColor="White"
-                   FontSize="22"
-                   Opacity="0"
-                   HorizontalTextAlignment="Center" />
+                   HorizontalTextAlignment="Center"
+                   Opacity="0"/>
 
             <Label x:Name="QuestionLabel"
                    Text=""
+                   FontSize="22"
                    TextColor="White"
-                   FontSize="26"
-                   Opacity="0"
-                   HorizontalTextAlignment="Center" />
+                   HorizontalTextAlignment="Center"
+                   Opacity="0"/>
 
             <Entry x:Name="NameEntry"
-                   Placeholder="Escribe tu nombre..."
+                   Placeholder="Tu nombre..."
+                   BackgroundColor="#1a1a1a"
                    TextColor="White"
                    PlaceholderColor="Gray"
-                   BackgroundColor="#333333"
-                   WidthRequest="250"
-                   Opacity="0"
-                   HorizontalOptions="Center" />
+                   Opacity="0"/>
 
-            <Grid x:Name="ContinueButtonContainer"
-                  WidthRequest="70"
-                  HeightRequest="70"
-                  Opacity="0">
-
-                <Image Source="sketch_bubble_purple.png"
-                       Aspect="AspectFit" />
-
-                <Label Text="Continuar"
+            <Grid x:Name="ContinueButtonContainer" Opacity="0">
+                <Image x:Name="ContinueBubble"
+                       Source="sketch_bubble_purple.png"
+                       HeightRequest="80"
+                       Opacity="0"/>
+                <Label x:Name="ContinueText"
+                       Text="Continuar"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
                        TextColor="White"
-                       FontSize="14"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       FontAttributes="Bold" />
-
-                <ImageButton BackgroundColor="Transparent"
-                             Clicked="OnContinueClicked" />
+                       Opacity="0"/>
             </Grid>
 
-        </VerticalStackLayout>
-    </Grid>
+            <Label x:Name="NameConfirmLabel"
+                   Text=""
+                   FontSize="22"
+                   TextColor="#fbd0ff"
+                   HorizontalTextAlignment="Center"
+                   IsVisible="False"/>
+
+            <StackLayout x:Name="ConfirmButtons"
+                         Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         IsVisible="False"
+                         Spacing="40">
+                <Button x:Name="YesButton"
+                        BackgroundColor="#dab3f7"
+                        TextColor="Black"
+                        CornerRadius="20"
+                        WidthRequest="80"/>
+                <Button x:Name="NoButton"
+                        BackgroundColor="Gray"
+                        TextColor="White"
+                        CornerRadius="20"
+                        WidthRequest="80"/>
+            </StackLayout>
+
+        </StackLayout>
+    </AbsoluteLayout>
+
 </ContentPage>
