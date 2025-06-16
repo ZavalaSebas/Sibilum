@@ -100,7 +100,7 @@
             </Label>
 
             <Label x:Name="SubtitleLabel"
-                   Text="Una app hecha de susurros."
+                   Text="Alguien tenía que escuchar."
                    FontSize="22"
                    Style="{StaticResource BodyLabel}" />
         </VerticalStackLayout>

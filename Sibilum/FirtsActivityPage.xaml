@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Sibilum.FirstActivityPage"
+             BackgroundColor="Black"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid x:Name="RootGrid" Padding="30">
+
+        <!-- Título inicial -->
+        <Label x:Name="TitleLabel"
+               Text="Has recibido un mensaje del silencio."
+               TextColor="White"
+               FontSize="24"
+               Opacity="0"
+               HorizontalTextAlignment="Center"
+               VerticalOptions="StartAndExpand"
+               Margin="0,50,0,20" />
+
+        <!-- Carta -->
+        <Frame x:Name="CartaFrame"
+               BackgroundColor="#222"
+               BorderColor="#444"
+               CornerRadius="12"
+               Padding="20"
+               Opacity="0"
+               VerticalOptions="CenterAndExpand">
+            <Label x:Name="CartaText"
+                   Text=""
+                   TextColor="White"
+                   FontSize="18"
+                   LineBreakMode="WordWrap" />
+        </Frame>
+
+        <!-- Opciones de respuesta -->
+        <StackLayout x:Name="ReplyOptions"
+                     Spacing="20"
+                     VerticalOptions="End"
+                     Opacity="0">
+            <Button Text="Responder este mensaje"
+                    Clicked="OnResponderClicked"
+                    BackgroundColor="#444"
+                    TextColor="White"
+                    CornerRadius="20" />
+            <Button Text="Guardar para otro día"
+                    Clicked="OnGuardarClicked"
+                    BackgroundColor="#333"
+                    TextColor="Gray"
+                    CornerRadius="20" />
+        </StackLayout>
+
+        <!-- Contenedor de editor -->
+        <StackLayout x:Name="ReplyEntryContainer"
+                     IsVisible="False"
+                     Padding="10"
+                     Spacing="15">
+            <Editor x:Name="ReplyEntry"
+                    Placeholder="Escribe lo que sientes..."
+                    AutoSize="TextChanges"
+                    BackgroundColor="#1c1c1c"
+                    TextColor="White"
+                    PlaceholderColor="Gray"
+                    HeightRequest="120" />
+            <Button Text="Guardar respuesta"
+                    Clicked="OnGuardarRespuestaClicked"
+                    BackgroundColor="#555"
+                    TextColor="White"
+                    CornerRadius="20" />
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

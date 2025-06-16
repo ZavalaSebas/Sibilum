@@ -19,7 +19,7 @@ public partial class IntroPage : ContentPage
     {
         await Task.Delay(2500);
 
-        await RevealTextWithGlitch(MessageLabel, "Un susurro te espera...", 120);
+        await RevealTextWithGlitch(MessageLabel, "No todo lo que callamos se olvida...", 120);
         await Task.Delay(2200);
         await MessageLabel.FadeTo(0, 1600, Easing.CubicOut);
         await Task.Delay(1000);
@@ -35,6 +35,7 @@ public partial class IntroPage : ContentPage
         await Task.Delay(1600);
         StartContinueBubbleIdleAnimation();
         StartContinueTextBlinking();
+
     }
 
     private async void OnContinueClicked()
@@ -95,13 +96,15 @@ public partial class IntroPage : ContentPage
 
     private async void OnYesClicked()
     {
-        // Desaparecer las burbujas de Sí y No una por una
+        // Desaparecer las burbujas con animación de toque
         foreach (var child in BubbleLayout.Children.ToList())
         {
             if (child is Grid grid && grid.Children.OfType<Image>().Any(img =>
                 img.Source.ToString().Contains("sketch_bubble_purple") || img.Source.ToString().Contains("sketch_bubble.png")))
             {
-                await grid.FadeTo(0, 800);
+                await grid.ScaleTo(1.15, 160, Easing.SinOut);
+                await grid.ScaleTo(1.0, 140, Easing.SinIn);
+                await grid.FadeTo(0, 800, Easing.CubicInOut);
                 BubbleLayout.Children.Remove(grid);
                 await Task.Delay(400);
             }
@@ -110,6 +113,7 @@ public partial class IntroPage : ContentPage
         // Luego desaparecer la pregunta del nombre
         await NameConfirmLabel.FadeTo(0, 1200);
 
+        StartBubbleAnimations(); // ?? Ahora empieza aquí
 
         string[] mensajes =
         {
@@ -140,7 +144,6 @@ public partial class IntroPage : ContentPage
             await RevealTextWithGlitch(label, mensaje, 120);
             await label.FadeTo(1, 800, Easing.CubicInOut);
             await Task.Delay(1600);
-            StartBubbleAtRandom();
         }
 
         foreach (var child in BubbleLayout.Children.ToList())
@@ -176,15 +179,30 @@ public partial class IntroPage : ContentPage
 
     private async void OnNoClicked()
     {
-        await QuestionLabel.FadeTo(0, 400);
-        await NameEntry.FadeTo(0, 400);
+        // Desaparecer rápidamente todo lo que hay visible (burbuja sí, no y pregunta)
+        foreach (var child in BubbleLayout.Children.ToList())
+        {
+            if (child is Grid grid && grid.Children.OfType<Image>().Any(img =>
+                img.Source.ToString().Contains("sketch_bubble_purple") || img.Source.ToString().Contains("sketch_bubble.png")))
+            {
+                await grid.FadeTo(0, 400);
+                BubbleLayout.Children.Remove(grid);
+            }
+        }
 
+        await NameConfirmLabel.FadeTo(0, 400);
+        await Task.Delay(400);
+
+        // Reiniciar flujo de pregunta con fade limpio
         NameEntry.Text = "";
-        await Task.Delay(800);
         await RevealTextWithGlitch(QuestionLabel, "¿Quién eres?", 120);
-        await NameEntry.FadeTo(1, 1000);
-        await ContinueButtonContainer.FadeTo(1, 1200);
-        await ContinueText.FadeTo(1, 1200);
+        await Task.Delay(600);
+        await NameEntry.FadeTo(1, 800);
+        await Task.Delay(800);
+        ContinueBubble.Opacity = 0;
+        ContinueButtonContainer.Opacity = 1;
+        await ContinueBubble.FadeTo(1, 1200, Easing.CubicInOut);
+        StartContinueBubbleIdleAnimation();
     }
 
     private async Task RevealTextWithGlitch(Label label, string finalText, int delayPerChar = 100, string? specialText = null, string? specialColor = null)
@@ -261,26 +279,70 @@ public partial class IntroPage : ContentPage
         _tapSoundPlayer.Play();
     }
 
-    private async void StartBubbleAtRandom()
+    private async void StartBubbleAnimations()
     {
-        var bubble = new Image
+        var burbujas = new List<View>
+    {
+        Bubble1, Bubble2, Bubble3, Bubble4, Bubble5, Bubble6,
+        Bubble7, Bubble8, Bubble9, Bubble10, Bubble11, Bubble12
+    };
+
+        for (int i = 0; i < burbujas.Count; i++)
         {
-            Source = "sketch_bubble_purple.png",
-            Opacity = 0,
-            WidthRequest = 30,
-            HeightRequest = 30
-        };
+            var bubble = burbujas[i];
+            int delayMs = (int)(1810 * i); // cada 1.81 segundos
 
-        var rnd = new Random();
-        AbsoluteLayout.SetLayoutBounds(bubble, new Rect(
-            rnd.NextDouble(), rnd.NextDouble(), AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-        AbsoluteLayout.SetLayoutFlags(bubble, AbsoluteLayoutFlags.PositionProportional);
-        BubbleLayout.Children.Add(bubble);
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(delayMs);
+                StartBubbleCycle(bubble, new Random().Next(8000, 11000));
+            });
+        }
+    }
 
-        await bubble.FadeTo(0.3, 1000);
-        await bubble.TranslateTo(0, -20, 2000);
-        await bubble.FadeTo(0, 1000);
-        BubbleLayout.Children.Remove(bubble);
+    private async void StartBubbleCycle(View bubble, int duration)
+    {
+        Random rnd = new();
+
+        while (true)
+        {
+            bool doMovement = rnd.Next(0, 2) == 1;
+            bool doPulse = rnd.Next(0, 4) == 0;
+
+            double originalScale = bubble.Scale;
+            double targetScale = rnd.NextDouble() * 0.8 + 0.6;
+            double rotation = rnd.Next(0, 2) == 1 ? 180 : -180;
+
+            await Task.WhenAll(
+                bubble.FadeTo(0.25, 1000, Easing.SinInOut),
+                bubble.ScaleTo(targetScale, (uint)(duration * 0.6), Easing.SinInOut)
+            );
+
+            if (doMovement)
+            {
+                await Task.WhenAll(
+                    bubble.TranslateTo(0, -30, (uint)(duration * 0.9), Easing.CubicInOut),
+                    bubble.RotateTo(rotation, (uint)(duration * 0.9), Easing.Linear)
+                );
+            }
+
+            if (doPulse)
+            {
+                await bubble.ScaleTo(targetScale + 0.2, 300, Easing.SpringOut);
+                await bubble.ScaleTo(targetScale, 400, Easing.SpringIn);
+            }
+
+            await bubble.FadeTo(0, 1000, Easing.SinInOut);
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                bubble.Scale = originalScale;
+                bubble.TranslationY = 0;
+                bubble.Rotation = 0;
+            });
+
+            await Task.Delay(rnd.Next(2500, 4500));
+        }
     }
 
 }

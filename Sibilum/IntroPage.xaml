@@ -1,11 +1,84 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shapes="clr-namespace:Microsoft.Maui.Controls.Shapes;assembly=Microsoft.Maui.Controls"
              x:Class="Sibilum.IntroPage"
              BackgroundColor="Black">
 
-    <AbsoluteLayout x:Name="BubbleLayout" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+    <AbsoluteLayout x:Name="BubbleLayout"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
 
+        <!-- 🎨 Burbujas estilo imagen sketch (PNG) -->
+        <Image x:Name="Bubble1" Source="sketch_bubble.png" Opacity="0"
+               WidthRequest="60" HeightRequest="60"
+               AbsoluteLayout.LayoutBounds="0.2,0.2,60,60"
+               AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <Image x:Name="Bubble10" Source="sketch_bubble_purple.png" Opacity="0"
+               WidthRequest="45" HeightRequest="45"
+               AbsoluteLayout.LayoutBounds="0.75,0.75,45,45"
+               AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- 🎈 Burbujas normales rellenas -->
+        <shapes:Ellipse x:Name="Bubble2" WidthRequest="40" HeightRequest="40"
+                        Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.8,0.15,40,40"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble3" WidthRequest="30" HeightRequest="30"
+                        Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.1,0.5,30,30"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble4" WidthRequest="45" HeightRequest="45"
+                        Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.9,0.55,45,45"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble5" WidthRequest="25" HeightRequest="25"
+                        Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.3,0.85,25,25"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble6" WidthRequest="50" HeightRequest="50"
+                        Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.7,0.88,50,50"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble7" WidthRequest="35" HeightRequest="35"
+                        Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.5,0.1,35,35"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble8" WidthRequest="20" HeightRequest="20"
+                        Fill="{StaticResource SecondaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.5,0.5,20,20"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble9" WidthRequest="55" HeightRequest="55"
+                        Fill="{StaticResource PrimaryBrush}" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.5,0.9,55,55"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- ✏️ Burbujas estilo stroke tipo sketch -->
+        <shapes:Ellipse x:Name="Bubble11" WidthRequest="50" HeightRequest="50"
+                        Stroke="{StaticResource PrimaryBrush}"
+                        StrokeThickness="1.5"
+                        StrokeDashArray="2,1.5"
+                        Fill="Transparent" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.25,0.3,50,50"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <shapes:Ellipse x:Name="Bubble12" WidthRequest="35" HeightRequest="35"
+                        Stroke="{StaticResource SecondaryBrush}"
+                        StrokeThickness="1.2"
+                        StrokeDashArray="1,1.5"
+                        Fill="Transparent" Opacity="0"
+                        AbsoluteLayout.LayoutBounds="0.6,0.25,35,35"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+        <!-- 🧠 Stack principal centrado -->
         <StackLayout Padding="30" Spacing="20"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
@@ -39,7 +112,7 @@
                        HeightRequest="80"
                        Opacity="0"/>
                 <Label x:Name="ContinueText"
-                       Text="Continuar"
+                       Text=""
                        HorizontalTextAlignment="Center"
                        VerticalTextAlignment="Center"
                        TextColor="White"
@@ -52,23 +125,6 @@
                    TextColor="#fbd0ff"
                    HorizontalTextAlignment="Center"
                    IsVisible="False"/>
-
-            <StackLayout x:Name="ConfirmButtons"
-                         Orientation="Horizontal"
-                         HorizontalOptions="Center"
-                         IsVisible="False"
-                         Spacing="40">
-                <Button x:Name="YesButton"
-                        BackgroundColor="#dab3f7"
-                        TextColor="Black"
-                        CornerRadius="20"
-                        WidthRequest="80"/>
-                <Button x:Name="NoButton"
-                        BackgroundColor="Gray"
-                        TextColor="White"
-                        CornerRadius="20"
-                        WidthRequest="80"/>
-            </StackLayout>
 
         </StackLayout>
     </AbsoluteLayout>
